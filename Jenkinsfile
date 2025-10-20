@@ -1,40 +1,56 @@
 pipeline {
-  agent any
+    agent any
 
-  tools{
+    stages {
 
-    go 'go-1.17'
+        stage('Checkout') {
+            steps {
+                echo '📥 A fazer checkout do repositório...'
+                git branch: 'main', url: 'https://github.com/DiogoPereira-1221137/SOFT-PROJECT-2025.git'
+            }
+        }
 
-  }
 
-  stages {
-    stage('Test'){
+        stage('Build') {
+            steps {
+                echo '🚀 A iniciar o build...'
+                bat 'mvn clean compile'
+            }
+        }
 
-        steps{
+        stage('SonarQube Analysis') {
+            steps {
+                script {
 
-            git ''
+                    withSonarQubeEnv(installationName: 'Sonarqube') {
+                     bat 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:4.0.0.4121:sonar'
 
+                }
+            }
+        }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage('Package') {
+            steps {
+                echo 'Gerando artefato...'
+                bat 'mvn package'
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }
         }
 
     }
-  }
 
-
-  stages {
-    stage('Build') {
-      steps {
-        echo 'Building...'
-      }
+    post {
+        always {
+            echo '🏁 Pipeline terminada!'
+        }
     }
-    stage('Test') {
-      steps {
-        echo 'Testing...'
-      }
-    }
-    stage('Deploy') {
-      steps {
-        echo 'Deploying...'
-      }
-    }
-  }
 }

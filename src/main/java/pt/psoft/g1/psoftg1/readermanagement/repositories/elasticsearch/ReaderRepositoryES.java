@@ -2,7 +2,6 @@ package pt.psoft.g1.psoftg1.readermanagement.repositories.elasticsearch;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
 import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.ReaderDetailsES;
 import pt.psoft.g1.psoftg1.readermanagement.services.ReaderBookCountDTO;
 

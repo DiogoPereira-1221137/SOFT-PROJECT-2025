@@ -2,16 +2,10 @@ package pt.psoft.g1.psoftg1.readermanagement.infraestructure.repositories.impl.m
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.LendingNumberES;
 import pt.psoft.g1.psoftg1.readermanagement.model.BirthDate;
 import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
 import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.*;
 import pt.psoft.g1.psoftg1.shared.infrastructure.repositories.impl.mappers.PhotoMapperES;
-import pt.psoft.g1.psoftg1.shared.model.Photo;
-import pt.psoft.g1.psoftg1.shared.model.elasticsearch.PhotoES;
-
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 
 @Mapper(componentModel = "spring", uses = { PhotoMapperES.class })
 public interface ReaderDetailsMapperES {

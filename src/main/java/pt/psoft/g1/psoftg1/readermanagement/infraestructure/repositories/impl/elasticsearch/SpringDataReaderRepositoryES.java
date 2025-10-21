@@ -1,6 +1,7 @@
 package pt.psoft.g1.psoftg1.readermanagement.infraestructure.repositories.impl.elasticsearch;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Profile("es")
 public interface SpringDataReaderRepositoryES extends
         ReactiveElasticsearchRepository<ReaderDetailsES, String>,
         ReaderDetailsRepoCustomES {

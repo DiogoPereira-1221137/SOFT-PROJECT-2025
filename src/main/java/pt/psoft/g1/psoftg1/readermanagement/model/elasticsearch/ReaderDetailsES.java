@@ -8,13 +8,13 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.readermanagement.services.UpdateReaderRequest;
-import pt.psoft.g1.psoftg1.shared.model.EntityWithPhoto;
+import pt.psoft.g1.psoftg1.shared.model.elasticsearch.EntityWithPhotoES;
 import pt.psoft.g1.psoftg1.usermanagement.model.Reader;
 
 import java.util.List;
 
 @Document(indexName = "reader_details")
-public class ReaderDetailsES extends EntityWithPhoto {
+public class ReaderDetailsES extends EntityWithPhotoES {
 
     @Id
     private String id;

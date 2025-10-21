@@ -1,17 +1,26 @@
 package pt.psoft.g1.psoftg1.readermanagement.infraestructure.repositories.impl.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.LendingNumberES;
 import pt.psoft.g1.psoftg1.readermanagement.model.BirthDate;
 import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
 import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.*;
+import pt.psoft.g1.psoftg1.shared.infrastructure.repositories.impl.mappers.PhotoMapperES;
 import pt.psoft.g1.psoftg1.shared.model.Photo;
+import pt.psoft.g1.psoftg1.shared.model.elasticsearch.PhotoES;
 
-@Mapper(componentModel = "spring")
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+
+@Mapper(componentModel = "spring", uses = { PhotoMapperES.class })
 public interface ReaderDetailsMapperES {
 
-    ReaderDetails toModel(ReaderDetailsES entity);
+    @Mapping(target = "photo", source = "photo") // para ES
     ReaderDetailsES toEntity(ReaderDetails model);
+
+    @Mapping(target = "photo", source = "photo") // para JPA
+    ReaderDetails toModel(ReaderDetailsES entity);
 
     default String map(ReaderNumberES readerNumberES) {
         if (readerNumberES == null) return null;
@@ -44,10 +53,6 @@ public interface ReaderDetailsMapperES {
         return phoneNumberES.toString();
     }
 
-    default String mapPhotoToString(Photo photo) {
-        if (photo == null) return null;
-        return photo.toString();
-    }
 
     default String map(EmailAddressES emailAddressES) {
         if (emailAddressES == null) return null;

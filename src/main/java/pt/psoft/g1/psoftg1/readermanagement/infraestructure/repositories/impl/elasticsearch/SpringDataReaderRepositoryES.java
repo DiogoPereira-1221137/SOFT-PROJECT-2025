@@ -8,9 +8,11 @@ import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.elasticsearch.repository.ReactiveElasticsearchRepository;
 import org.springframework.util.StringUtils;
 import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.ReaderDetailsES;
+import pt.psoft.g1.psoftg1.readermanagement.repositories.ReaderRepository;
 import pt.psoft.g1.psoftg1.readermanagement.services.SearchReadersQuery;
 
 import java.util.ArrayList;
@@ -18,9 +20,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Profile("es")
-public interface SpringDataReaderRepositoryES extends
-        ReactiveElasticsearchRepository<ReaderDetailsES, String>,
-        ReaderDetailsRepoCustomES {
+public interface SpringDataReaderRepositoryES extends ReactiveElasticsearchRepository<ReaderDetailsES, String>,
+        ReaderDetailsRepoCustomES
+{
 
     Optional<ReaderDetailsES> findByReaderNumber(String readerNumber);
     List<ReaderDetailsES> findByPhoneNumber(String phoneNumber);

@@ -8,7 +8,7 @@ import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.*;
 import pt.psoft.g1.psoftg1.shared.infrastructure.repositories.impl.mappers.PhotoMapperES;
 
 @Mapper(componentModel = "spring", uses = { PhotoMapperES.class })
-public interface ReaderDetailsMapperES {
+public interface ReaderDetailsESMapper {
 
     @Mapping(target = "photo", source = "photo") // para ES
     ReaderDetailsES toEntity(ReaderDetails model);

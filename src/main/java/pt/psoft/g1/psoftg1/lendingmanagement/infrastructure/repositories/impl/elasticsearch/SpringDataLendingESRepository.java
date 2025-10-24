@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Profile("es")
-public interface SpringDataLendingRepositoryES extends ElasticsearchRepository<LendingES, String> {
+public interface SpringDataLendingESRepository extends ElasticsearchRepository<LendingES, String> {
 
     /**
      * Find lending by lending number.

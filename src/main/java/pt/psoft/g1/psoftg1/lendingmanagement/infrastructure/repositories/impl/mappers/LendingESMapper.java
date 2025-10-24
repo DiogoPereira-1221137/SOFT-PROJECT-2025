@@ -6,7 +6,7 @@ import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.LendingES;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.LendingNumberES;
 
 @Mapper(componentModel = "spring")
-public interface LendingMapperES {
+public interface LendingESMapper {
     Lending toModel(LendingES entity);
     LendingES toEntity(Lending model);
 

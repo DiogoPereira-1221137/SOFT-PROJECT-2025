@@ -14,12 +14,14 @@ import org.springframework.data.elasticsearch.client.elc.NativeQueryBuilder;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Query;
+import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import lombok.RequiredArgsConstructor;
 import pt.psoft.g1.psoftg1.usermanagement.model.elasticsearch.UserES;
 import pt.psoft.g1.psoftg1.shared.services.Page;
+import pt.psoft.g1.psoftg1.usermanagement.repositories.UserRepository;
 import pt.psoft.g1.psoftg1.usermanagement.services.SearchUsersQuery;
 
 /**
@@ -27,7 +29,7 @@ import pt.psoft.g1.psoftg1.usermanagement.services.SearchUsersQuery;
  */
 @Profile("es")
 @CacheConfig(cacheNames = "users_es")
-public interface SpringDataUserRepositoryES
+public interface SpringDataUserESRepository
         extends ElasticsearchRepository<UserES, String>, UserESRepoCustom {
 
     @Override

@@ -10,7 +10,7 @@ import pt.psoft.g1.psoftg1.usermanagement.model.elasticsearch.UserES;
 import pt.psoft.g1.psoftg1.shared.services.Page;
 import pt.psoft.g1.psoftg1.usermanagement.services.SearchUsersQuery;
 
-@Repository
+
 public interface UserRepositoryES extends ElasticsearchRepository<UserES, String> {
 
     <S extends UserES> S save(S entity);

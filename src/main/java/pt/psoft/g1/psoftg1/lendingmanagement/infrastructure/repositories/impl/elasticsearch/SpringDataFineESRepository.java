@@ -7,7 +7,7 @@ import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.FineES;
 import java.util.Optional;
 
 @Profile("es")
-public interface SpringDataFineRepositoryES extends ElasticsearchRepository<FineES, String> {
+public interface SpringDataFineESRepository extends ElasticsearchRepository<FineES, String> {
 
     /**
      * Find a fine document by lending number.

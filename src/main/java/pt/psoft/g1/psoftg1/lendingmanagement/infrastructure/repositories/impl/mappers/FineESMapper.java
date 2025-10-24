@@ -6,7 +6,7 @@ import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.FineES;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.LendingNumberES;
 
 @Mapper(componentModel = "spring")
-public interface FineMapperES {
+public interface FineESMapper {
     Fine toModel(FineES entity);
     FineES toEntity(Fine model);
 

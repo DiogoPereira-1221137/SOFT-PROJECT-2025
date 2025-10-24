@@ -1,30 +1,25 @@
 package pt.psoft.g1.psoftg1.shared.model.elasticsearch;
 
-import jakarta.persistence.Id;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.nio.file.Path;
-
-
-
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@Document(indexName = "photos")
-public class PhotoES {
+@AllArgsConstructor
+public class ForbiddenNameES {
 
     @Id
-    private String id;
+    private String id; // Elasticsearch usa String como ID por padrão
 
+    @Getter
+    @Setter
     @Field(type = FieldType.Text)
-    private String photoFile;
+    private String forbiddenName;
 
-    public PhotoES(Path photoPath) {
-        this.photoFile = photoPath.toString();
+    public ForbiddenNameES(String name) {
+        this.forbiddenName = name;
     }
 }

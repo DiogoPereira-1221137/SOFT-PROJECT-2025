@@ -7,9 +7,10 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
+import pt.psoft.g1.psoftg1.genremanagement.model.elasticsearch.GenreES;
 import pt.psoft.g1.psoftg1.readermanagement.services.UpdateReaderRequest;
 import pt.psoft.g1.psoftg1.shared.model.elasticsearch.EntityWithPhotoES;
-import pt.psoft.g1.psoftg1.usermanagement.model.Reader;
+import pt.psoft.g1.psoftg1.usermanagement.model.elasticsearch.ReaderES;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ReaderDetailsES extends EntityWithPhotoES {
 
     @Getter @Setter
     @Field(type = FieldType.Object)
-    private Reader reader;
+    private ReaderES reader;
 
     @Getter @Field(type = FieldType.Object)
     private ReaderNumberES readerNumber;
@@ -46,13 +47,13 @@ public class ReaderDetailsES extends EntityWithPhotoES {
 
     @Getter @Setter
     @Field(type = FieldType.Nested)
-    private List<Genre> interestList;
+    private List<GenreES> interestList;
 
     protected ReaderDetailsES() {}
 
-    public ReaderDetailsES(int readerNumber, Reader reader, String birthDate, String phoneNumber,
+    public ReaderDetailsES(int readerNumber, ReaderES reader, String birthDate, String phoneNumber,
                            boolean gdpr, boolean marketing, boolean thirdParty,
-                           String photoURI, List<Genre> interestList) {
+                           String photoURI, List<GenreES> interestList) {
 
         if(reader == null || phoneNumber == null) {
             throw new IllegalArgumentException("Provided argument resolves to null object");
@@ -73,7 +74,7 @@ public class ReaderDetailsES extends EntityWithPhotoES {
         this.interestList = interestList;
     }
 
-    public void applyPatch(UpdateReaderRequest request, String photoURI, List<Genre> interestList) {
+    public void applyPatch(UpdateReaderRequest request, String photoURI, List<GenreES> interestList) {
         if(request.getUsername() != null) reader.setUsername(request.getUsername());
         if(request.getPassword() != null) reader.setPassword(request.getPassword());
         if(request.getFullName() != null) reader.setName(request.getFullName());

@@ -6,6 +6,8 @@ import pt.psoft.g1.psoftg1.readermanagement.model.BirthDate;
 import pt.psoft.g1.psoftg1.readermanagement.model.ReaderDetails;
 import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.*;
 import pt.psoft.g1.psoftg1.shared.infrastructure.repositories.impl.mappers.PhotoMapperES;
+import pt.psoft.g1.psoftg1.shared.model.Name;
+import pt.psoft.g1.psoftg1.shared.model.elasticsearch.NameES;
 
 @Mapper(componentModel = "spring", uses = { PhotoMapperES.class })
 public interface ReaderDetailsESMapper {
@@ -51,5 +53,13 @@ public interface ReaderDetailsESMapper {
     default String map(EmailAddressES emailAddressES) {
         if (emailAddressES == null) return null;
         return emailAddressES.getAddress();
+    }
+
+    default String map(Name name) {
+        return name == null ? null : name.toString();
+    }
+
+    default String map(NameES nameES) {
+        return nameES == null ? null : nameES.toString();
     }
 }

@@ -4,13 +4,10 @@ import org.mapstruct.Mapper;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.Lending;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.LendingES;
 import pt.psoft.g1.psoftg1.lendingmanagement.model.elasticSearch.LendingNumberES;
-import pt.psoft.g1.psoftg1.readermanagement.model.BirthDate;
-import pt.psoft.g1.psoftg1.shared.model.Name;
-import pt.psoft.g1.psoftg1.shared.model.Photo;
-import pt.psoft.g1.psoftg1.shared.model.elasticsearch.NameES;
-import pt.psoft.g1.psoftg1.shared.model.elasticsearch.PhotoES;
+import pt.psoft.g1.psoftg1.readermanagement.infraestructure.repositories.impl.mappers.ReaderDetailsESMapper;
+import pt.psoft.g1.psoftg1.shared.infrastructure.repositories.impl.mappers.CommonESMapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { CommonESMapper.class, ReaderDetailsESMapper.class })
 public interface LendingESMapper {
     Lending toModel(LendingES entity);
     LendingES toEntity(Lending model);
@@ -24,25 +21,4 @@ public interface LendingESMapper {
         if(lendingNumberES == null) return null;
         return lendingNumberES.toString();
     }
-
-    default String map(PhotoES photoES) {
-        return photoES == null ? null : photoES.toString();
-    }
-
-    default String map(Photo photo) {
-        return photo == null ? null : photo.toString();
-    }
-
-    default String map(NameES nameES) {
-        return nameES == null ? null : nameES.toString();
-    }
-
-    default String map(Name name) {
-        return name == null ? null : name.toString();
-    }
-
-    default String map(BirthDate birthDate) {
-        return birthDate == null ? null : birthDate.toString();
-    }
 }
-

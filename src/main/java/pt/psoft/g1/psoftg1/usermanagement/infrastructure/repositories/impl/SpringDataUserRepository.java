@@ -51,7 +51,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Repository
 @CacheConfig(cacheNames = "users")
-//@Profile("jpa")
+@Profile("jpa")
 public interface SpringDataUserRepository extends UserRepository, UserRepoCustom, CrudRepository<User, Long> {
 
 	@Override

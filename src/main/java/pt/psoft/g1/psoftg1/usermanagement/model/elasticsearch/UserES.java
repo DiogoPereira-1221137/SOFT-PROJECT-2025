@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -22,9 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.Getter;
 import lombok.Setter;
-import pt.psoft.g1.psoftg1.shared.model.Name;
 import pt.psoft.g1.psoftg1.shared.model.elasticsearch.NameES;
-import pt.psoft.g1.psoftg1.usermanagement.model.Role;
 import pt.psoft.g1.psoftg1.usermanagement.model.elasticsearch.RoleES;
 
 /**
@@ -38,7 +38,7 @@ public class UserES implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id; // Elasticsearch usa String como id (gerado automaticamente)
+    private String id;
 
     @CreatedDate
     @Field(type = FieldType.Date)
@@ -70,11 +70,21 @@ public class UserES implements UserDetails {
     @Field(type = FieldType.Keyword)
     private String password;
 
+    @JsonProperty("name")
     @Field(type = FieldType.Object)
     private NameES name;
 
     @Field(type = FieldType.Nested)
     private final Set<RoleES> authorities = new HashSet<>();
+
+    @Field(type = FieldType.Boolean)
+    private Boolean accountNonLocked;
+
+    @Field(type = FieldType.Boolean)
+    private Boolean accountNonExpired;
+
+    @Field(type = FieldType.Boolean)
+    private Boolean credentialsNonExpired;
 
     protected UserES() {
         // for deserialization
@@ -124,5 +134,10 @@ public class UserES implements UserDetails {
 
     public void setName(String name) {
         this.name = new NameES(name);
+    }
+
+    @JsonSetter("name")
+    public void setName(NameES name) {
+        this.name = name;
     }
 }

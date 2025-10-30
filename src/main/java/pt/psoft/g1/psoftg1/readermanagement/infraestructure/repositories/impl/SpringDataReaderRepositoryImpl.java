@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//@Profile("jpa")
+@Profile("jpa")
 public interface SpringDataReaderRepositoryImpl extends ReaderRepository, ReaderDetailsRepoCustom, CrudRepository<ReaderDetails, Long> {
     @Override
     @Query("SELECT r " +

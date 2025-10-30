@@ -2,20 +2,17 @@ package pt.psoft.g1.psoftg1.usermanagement.model.elasticsearch;
 
 import java.io.Serial;
 
+import lombok.*;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.security.core.GrantedAuthority;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Elasticsearch version of Role
  */
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoleES implements GrantedAuthority {

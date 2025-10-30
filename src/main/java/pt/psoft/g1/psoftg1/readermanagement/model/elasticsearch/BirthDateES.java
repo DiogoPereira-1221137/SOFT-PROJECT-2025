@@ -24,6 +24,8 @@ public class BirthDateES {
     }
 
     public BirthDateES(String birthDate) {
+        birthDate = birthDate.replace("/", "-");
+
         if(!birthDate.matches(dateFormatRegexPattern)) {
             throw new IllegalArgumentException("Provided birth date is not in a valid format. Use yyyy-MM-dd");
         }

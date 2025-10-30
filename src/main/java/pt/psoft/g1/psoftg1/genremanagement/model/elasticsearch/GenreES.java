@@ -2,7 +2,6 @@ package pt.psoft.g1.psoftg1.genremanagement.model.elasticsearch;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import jakarta.validation.constraints.Size;
@@ -10,7 +9,6 @@ import jakarta.validation.constraints.Size;
 @Document(indexName = "genres")
 @NoArgsConstructor
 @Getter
-@Setter
 public class GenreES {
 
     @Id
@@ -20,10 +18,14 @@ public class GenreES {
     private String genre;
 
     public GenreES(String genre) {
-        setGenre(genre);
+        setGenreValue(genre);
     }
 
-    private void setGenre(String genre) {
+    public void setGenre(String genre) {
+        setGenreValue(genre);
+    }
+
+    private void setGenreValue(String genre) {
         if (genre == null)
             throw new IllegalArgumentException("Genre cannot be null");
         if (genre.isBlank())
@@ -31,6 +33,10 @@ public class GenreES {
         if (genre.length() > 100)
             throw new IllegalArgumentException("Genre has a maximum of 100 characters");
         this.genre = genre;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override

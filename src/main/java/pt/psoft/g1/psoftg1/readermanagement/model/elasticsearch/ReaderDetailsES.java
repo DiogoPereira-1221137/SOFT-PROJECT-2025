@@ -18,19 +18,24 @@ import java.util.List;
 public class ReaderDetailsES extends EntityWithPhotoES {
 
     @Id
+    @Getter
     private String id;
 
     @Getter @Setter
     @Field(type = FieldType.Object)
     private ReaderES reader;
 
-    @Getter @Field(type = FieldType.Object)
+    @Setter
+    @Field(type = FieldType.Keyword)
     private ReaderNumberES readerNumber;
 
+    @Getter
+    @Setter
     @Field(type = FieldType.Object)
     private BirthDateES birthDate;
 
-    @Field(type = FieldType.Object)
+    @Setter
+    @Field(type = FieldType.Keyword)
     private PhoneNumberES phoneNumber;
 
     @Getter @Setter
@@ -49,7 +54,7 @@ public class ReaderDetailsES extends EntityWithPhotoES {
     @Field(type = FieldType.Nested)
     private List<GenreES> interestList;
 
-    protected ReaderDetailsES() {}
+    public ReaderDetailsES() {}
 
     public ReaderDetailsES(int readerNumber, ReaderES reader, String birthDate, String phoneNumber,
                            boolean gdpr, boolean marketing, boolean thirdParty,
@@ -93,4 +98,10 @@ public class ReaderDetailsES extends EntityWithPhotoES {
     public String getPhoneNumber() {
         return phoneNumber.toString();
     }
+
+    public String getBirthDateAsString() {
+        return birthDate != null ? birthDate.toString() : null;
+    }
+
+
 }

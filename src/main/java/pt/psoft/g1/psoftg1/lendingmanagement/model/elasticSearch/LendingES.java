@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import pt.psoft.g1.psoftg1.bookmanagement.model.Book;
+import pt.psoft.g1.psoftg1.bookmanagement.model.elasticsearch.BookES;
 import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.ReaderDetailsES;
 
 import java.time.LocalDate;
@@ -27,7 +27,7 @@ public class LendingES {
     private LendingNumberES lendingNumber;
 
     @Field(type = FieldType.Object)
-    private Book book;
+    private BookES book;
 
     @Field(type = FieldType.Object)
     private ReaderDetailsES readerDetails;
@@ -47,7 +47,7 @@ public class LendingES {
     @Field(type = FieldType.Text)
     private String commentary;
 
-    public LendingES(Book book, ReaderDetailsES readerDetails, int seq, int lendingDuration, int fineValuePerDayInCents) {
+    public LendingES(BookES book, ReaderDetailsES readerDetails, int seq, int lendingDuration, int fineValuePerDayInCents) {
         this.book = book;
         this.readerDetails = readerDetails;
         this.lendingNumber = new LendingNumberES(seq);
@@ -73,5 +73,9 @@ public class LendingES {
             return Optional.of(fineValuePerDayInCents * days);
         }
         return Optional.empty();
+    }
+
+    public String getLendingNumber() {
+        return lendingNumber != null ? lendingNumber.toString() : null;
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @NoArgsConstructor
 @Getter
 @Setter
-@Document(indexName = "forbiddenname")
+@Document(indexName = "forbiddennames")
 public class ForbiddenNameES {
 
     @Id

@@ -1,12 +1,12 @@
 package pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import pt.psoft.g1.psoftg1.genremanagement.model.Genre;
 import pt.psoft.g1.psoftg1.genremanagement.model.elasticsearch.GenreES;
 import pt.psoft.g1.psoftg1.readermanagement.services.UpdateReaderRequest;
 import pt.psoft.g1.psoftg1.shared.model.elasticsearch.EntityWithPhotoES;
@@ -14,49 +14,43 @@ import pt.psoft.g1.psoftg1.usermanagement.model.elasticsearch.ReaderES;
 
 import java.util.List;
 
+
 @Document(indexName = "reader_details")
+@JsonIgnoreProperties(ignoreUnknown = true)  // ✅ Ignora campos desconhecidos
+@Getter
+@Setter
 public class ReaderDetailsES extends EntityWithPhotoES {
 
     @Id
-    @Getter
     private String id;
 
-    @Getter @Setter
     @Field(type = FieldType.Object)
     private ReaderES reader;
 
-    @Setter
     @Field(type = FieldType.Keyword)
-    private ReaderNumberES readerNumber;
+    private String readerNumber;
 
-    @Getter
-    @Setter
     @Field(type = FieldType.Object)
     private BirthDateES birthDate;
 
-    @Setter
     @Field(type = FieldType.Keyword)
-    private PhoneNumberES phoneNumber;
+    private String phoneNumber;
 
-    @Getter @Setter
     @Field(type = FieldType.Boolean)
     private boolean gdprConsent;
 
-    @Getter @Setter
     @Field(type = FieldType.Boolean)
     private boolean marketingConsent;
 
-    @Getter @Setter
     @Field(type = FieldType.Boolean)
     private boolean thirdPartySharingConsent;
 
-    @Getter @Setter
     @Field(type = FieldType.Nested)
     private List<GenreES> interestList;
 
     public ReaderDetailsES() {}
 
-    public ReaderDetailsES(int readerNumber, ReaderES reader, String birthDate, String phoneNumber,
+    public ReaderDetailsES(String readerNumber, ReaderES reader, String birthDate, String phoneNumber,
                            boolean gdpr, boolean marketing, boolean thirdParty,
                            String photoURI, List<GenreES> interestList) {
 
@@ -69,8 +63,8 @@ public class ReaderDetailsES extends EntityWithPhotoES {
         }
 
         this.reader = reader;
-        this.readerNumber = new ReaderNumberES(readerNumber);
-        this.phoneNumber = new PhoneNumberES(phoneNumber);
+        this.readerNumber = readerNumber;
+        this.phoneNumber = phoneNumber;
         this.birthDate = new BirthDateES(birthDate);
         this.gdprConsent = true;
         this.marketingConsent = marketing;
@@ -84,24 +78,11 @@ public class ReaderDetailsES extends EntityWithPhotoES {
         if(request.getPassword() != null) reader.setPassword(request.getPassword());
         if(request.getFullName() != null) reader.setName(request.getFullName());
         if(request.getBirthDate() != null) birthDate = new BirthDateES(request.getBirthDate());
-        if(request.getPhoneNumber() != null) phoneNumber = new PhoneNumberES(request.getPhoneNumber());
+        if(request.getPhoneNumber() != null) phoneNumber = request.getPhoneNumber();  // ✅ String direto
         marketingConsent = request.getMarketing();
         thirdPartySharingConsent = request.getThirdParty();
         if(photoURI != null) setPhotoInternal(photoURI);
         if(interestList != null) this.interestList = interestList;
     }
-
-    public String getReaderNumber() {
-        return readerNumber.toString();
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber.toString();
-    }
-
-    public String getBirthDateAsString() {
-        return birthDate != null ? birthDate.toString() : null;
-    }
-
 
 }

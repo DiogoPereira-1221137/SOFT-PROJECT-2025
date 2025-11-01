@@ -1,31 +1,22 @@
 package pt.psoft.g1.psoftg1.shared.model.elasticsearch;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-
 @Getter
+@Setter
 public abstract class EntityWithPhotoES {
 
-    @Field(type = FieldType.Object)
-    protected PhotoES photo;
-
-    public void setPhoto(String photoUri) {
-        this.setPhotoInternal(photoUri);
-    }
+    @Field(type = FieldType.Text)
+    protected String photo;
 
     protected void setPhotoInternal(String photoURI) {
-        if (photoURI == null) {
-            this.photo = null;
-        } else {
-            try {
-                this.photo = new PhotoES(Path.of(photoURI));
-            } catch (InvalidPathException e) {
-                this.photo = null;
-            }
-        }
+        this.photo = photoURI;
+    }
+
+    public String getPhotoFile() {
+        return photo;
     }
 }

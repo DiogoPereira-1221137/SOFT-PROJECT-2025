@@ -1,74 +1,50 @@
 package pt.psoft.g1.psoftg1.bookmanagement.model.elasticsearch;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import pt.psoft.g1.psoftg1.authormanagement.model.elasticsearch.AuthorES;
+import pt.psoft.g1.psoftg1.genremanagement.model.elasticsearch.GenreES;
+import pt.psoft.g1.psoftg1.shared.model.elasticsearch.EntityWithPhotoES;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
 @Document(indexName = "books")
-public class BookES {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class BookES extends EntityWithPhotoES {
 
     @Id
-    @Getter @Setter
-    private String id; // Elasticsearch usa String id
+    private String id;  // Usaremos o ISBN como ID
+
+    @Version
+    private Long version;
+
+    // Getters que retornam String
+    @Field(type = FieldType.Text)
+    private String isbn;
+
+    @Field(type = FieldType.Text)
+    private String title;
+
+    @Field(type = FieldType.Text)
+    private String description;
 
     @Field(type = FieldType.Object)
-    @Getter @Setter
-    private IsbnES isbn;
+    private GenreES genre;
 
-    @Field(type = FieldType.Object)
-    @Getter @Setter
-    private TitleES title;
+    @Field(type = FieldType.Nested)
+    private List<AuthorES> authors = new ArrayList<>();
 
-    @Field(type = FieldType.Object)
-    @Getter @Setter
-    private DescriptionES description;
-
-    @Field(type = FieldType.Keyword) // armazenar apenas o nome do gênero
-    @Getter @Setter
-    private String genreName;
-
-    @Field(type = FieldType.Keyword) // armazenar apenas os nomes dos autores
-    @Getter @Setter
-    private List<String> authorNames = new ArrayList<>();
-
-    @Field(type = FieldType.Keyword)
-    @Getter @Setter
-    private String photoUri;
-
-    public BookES(String isbn, String title, String description, String genreName, List<String> authorNames, String photoUri) {
-        this.isbn = new IsbnES(isbn);
-        this.title = new TitleES(title);
-        this.description = (description != null) ? new DescriptionES(description) : null;
-
-        if (genreName == null || genreName.isBlank())
-            throw new IllegalArgumentException("Genre cannot be null");
-        this.genreName = genreName;
-
-        if (authorNames == null || authorNames.isEmpty())
-            throw new IllegalArgumentException("Author list cannot be empty");
-        this.authorNames = authorNames;
-
-        this.photoUri = photoUri;
-    }
-
-    public String getIsbn() {
-        return this.isbn.toString();
-    }
-
-    public String getTitle() {
-        return this.title.toString();
-    }
-
-    public String getDescription() {
-        return (this.description != null) ? this.description.toString() : null;
-    }
 }

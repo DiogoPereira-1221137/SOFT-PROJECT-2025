@@ -60,6 +60,7 @@ public class AuthorServiceImpl implements AuthorService {
             resource.setPhotoURI(null);
         }
         final Author author = mapper.create(resource);
+        System.out.println("aqui " + author.getAuthorNumber());
         return authorRepository.save(author);
     }
 

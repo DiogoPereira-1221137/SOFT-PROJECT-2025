@@ -40,7 +40,9 @@ public class ReaderRepositoryES implements ReaderRepository {
                             .index(INDEX)
                             .size(1)
                             .query(q -> q
-                                    .term(t -> t.field("readerNumber.keyword").value(readerNumber))),
+                                    .term(t -> t
+                                            .field("readerNumber")
+                                            .value(readerNumber))),
                     ReaderDetailsES.class);
             return response.hits().hits().stream()
                     .findFirst()

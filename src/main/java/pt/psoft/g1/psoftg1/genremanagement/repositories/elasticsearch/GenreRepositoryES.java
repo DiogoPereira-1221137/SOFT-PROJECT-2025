@@ -68,9 +68,9 @@ public class GenreRepositoryES implements GenreRepository  {
             SearchResponse<GenreES> search = client.search(s -> s
                             .index(INDEX)
                             .query(q -> q
-                                    .term(t -> t
+                                    .match(t -> t
                                             .field("genre")
-                                            .value(genreName)))
+                                            .query(genreName)))
                             .size(1),
                     GenreES.class);
 

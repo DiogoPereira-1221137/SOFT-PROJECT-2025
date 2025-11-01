@@ -81,7 +81,7 @@ public class UserRepositoryES implements UserRepository {
                     UserES.class
             );
 
-            System.out.println(search.hits().hits().size());
+//            System.out.println(search.hits().hits().size());
 
             return search.hits().hits().stream()
                     .findFirst()

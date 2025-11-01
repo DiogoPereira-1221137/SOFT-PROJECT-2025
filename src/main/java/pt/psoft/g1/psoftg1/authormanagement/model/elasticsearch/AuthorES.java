@@ -1,6 +1,6 @@
 package pt.psoft.g1.psoftg1.authormanagement.model.elasticsearch;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,13 +10,12 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import pt.psoft.g1.psoftg1.authormanagement.model.Bio;
 import pt.psoft.g1.psoftg1.authormanagement.services.UpdateAuthorRequest;
 import pt.psoft.g1.psoftg1.exceptions.ConflictException;
 import pt.psoft.g1.psoftg1.shared.model.elasticsearch.EntityWithPhotoES;
-import pt.psoft.g1.psoftg1.shared.model.elasticsearch.NameES;
 
 @Document(indexName = "authors")
+@JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,32 +23,27 @@ import pt.psoft.g1.psoftg1.shared.model.elasticsearch.NameES;
 public class AuthorES extends EntityWithPhotoES {
 
     @Id
-    private Long authorNumber; // ID em formato String (UUID ou Long convertido)
+    private Long authorNumber;
 
     @Version
     private Long version;
 
-    @JsonProperty("name")
-    @Field(type = FieldType.Object)
-    private NameES name;
+    @Field(type = FieldType.Text)
+    private String name;
 
-    @JsonProperty("bio")
-    @Field(type = FieldType.Object)
-    private BioES bio;
+    @Field(type = FieldType.Text)
+    private String bio;
 
-
-
-    // --- MÉTODOS DE NEGÓCIO ---
     public void applyPatch(final long desiredVersion, final UpdateAuthorRequest request) {
         if (this.version != null && !this.version.equals(desiredVersion)) {
             throw new ConflictException("Object was already modified by another user");
         }
 
         if (request.getName() != null)
-            this.name = new NameES(request.getName());
+            this.name = request.getName();
 
         if (request.getBio() != null)
-            this.bio = new BioES(request.getBio());
+            this.bio = request.getBio();
 
         if (request.getPhotoURI() != null)
             setPhotoInternal(request.getPhotoURI());
@@ -62,20 +56,4 @@ public class AuthorES extends EntityWithPhotoES {
         setPhotoInternal(null);
     }
 
-    public String getName() {
-        return name != null ? name.toString() : null;
-    }
-
-    public String getBio() {
-        return bio != null ? bio.toString() : null;
-
-    }
-
-//    public Long getIdAsLong() {
-//        try {
-//            return authorNumber != null ? Long.parseLong(authorNumber) : null;
-//        } catch (NumberFormatException e) {
-//            return null; // Pode acontecer se for UUID
-//        }
-//    }
 }

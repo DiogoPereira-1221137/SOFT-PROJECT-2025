@@ -39,7 +39,7 @@ public class PhotoESRepository implements PhotoRepository {
                     .index(INDEX)
                     .query(q -> q
                             .term(t -> t
-                                    .field("photoFile.keyword")
+                                    .field("photoFile")
                                     .value(photoFile))));
 
             // Optionally log the number of deleted documents

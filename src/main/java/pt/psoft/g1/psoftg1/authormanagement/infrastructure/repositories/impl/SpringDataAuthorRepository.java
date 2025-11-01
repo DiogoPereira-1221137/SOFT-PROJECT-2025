@@ -1,5 +1,6 @@
 package pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,7 @@ import pt.psoft.g1.psoftg1.authormanagement.repositories.AuthorRepository;
 import java.util.List;
 import java.util.Optional;
 
+@Profile("jpa")
 public interface SpringDataAuthorRepository extends AuthorRepository, CrudRepository<Author, Long> {
     @Override
     Optional<Author> findByAuthorNumber(Long authorNumber);

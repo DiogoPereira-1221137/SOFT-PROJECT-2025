@@ -1,39 +1,25 @@
 package pt.psoft.g1.psoftg1.authormanagement.infrastructure.repositories.impl.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import pt.psoft.g1.psoftg1.authormanagement.model.Author;
 import pt.psoft.g1.psoftg1.authormanagement.model.elasticsearch.AuthorES;
 import pt.psoft.g1.psoftg1.authormanagement.model.elasticsearch.BioES;
-import pt.psoft.g1.psoftg1.readermanagement.model.BirthDate;
-import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.BirthDateES;
-import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.EmailAddressES;
-import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.PhoneNumberES;
-import pt.psoft.g1.psoftg1.readermanagement.model.elasticsearch.ReaderNumberES;
 import pt.psoft.g1.psoftg1.shared.infrastructure.repositories.impl.mappers.PhotoMapperES;
-import pt.psoft.g1.psoftg1.shared.model.Name;
 import pt.psoft.g1.psoftg1.shared.model.elasticsearch.NameES;
 
 @Mapper(componentModel = "spring", uses = { PhotoMapperES.class })
-public interface  AuthorESMapper {
+public interface AuthorESMapper {
 
-    AuthorES toEntity(Author model);
+    // Constrói explicitamente NameES e BioES para evitar ambiguidade do MapStruct
+    @Mapping(target = "name", expression = "java(new pt.psoft.g1.psoftg1.shared.model.elasticsearch.NameES(author.getName()))")
+    @Mapping(target = "bio", expression = "java(new pt.psoft.g1.psoftg1.authormanagement.model.elasticsearch.BioES(author.getBio()))")
+    AuthorES toEntity(Author author);
 
-    Author toModel(AuthorES entity);
+    // Para o mapeamento inverso, constrói Author usando os getters string (o domínio não pode mudar)
+    @Mapping(target = "name", expression = "java(new pt.psoft.g1.psoftg1.shared.model.Name(authorES.getName() != null ? authorES.getName().getName() : null))")
+    @Mapping(target = "bio", expression = "java(authorES.getBio() != null ? new pt.psoft.g1.psoftg1.authormanagement.model.Bio(authorES.getBio().getBio()) : null)")
+    Author toModel(AuthorES authorES);
 
-    default String map(PhoneNumberES phoneNumberES) {
-        if (phoneNumberES == null) return null;
-        return phoneNumberES.toString();
-    }
-
-    default String map(Name name) {
-        return name == null ? null : name.toString();
-    }
-
-    default String map(NameES nameES) {
-        return nameES == null ? null : nameES.toString();
-    }
-
-    default NameES map(String name) {
-        return name == null ? null : new NameES(name);
-    }
+    // NOTA: mantive o mapper minimal — não é necessário helpers adicionais aqui.
 }

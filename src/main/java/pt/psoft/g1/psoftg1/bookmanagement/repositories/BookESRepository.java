@@ -216,7 +216,7 @@ public class BookESRepository implements BookRepository {
             client.index(IndexRequest.of(i -> i
                     .index(INDEX)
                     .id(book.getIsbn())  // Usar ISBN como ID
-                    .document(bookES)
+                    .document(bookES).refresh(co.elastic.clients.elasticsearch._types.Refresh.True)
             ));
 
             return book;

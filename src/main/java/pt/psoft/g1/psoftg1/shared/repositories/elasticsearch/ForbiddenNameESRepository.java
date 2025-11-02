@@ -101,7 +101,8 @@ public class ForbiddenNameESRepository implements ForbiddenNameRepository {
             IndexResponse response = client.index(i -> i
                     .index(INDEX)
                     .id(documentId != null ? documentId : null)
-                    .document(forbiddenNameES));
+                    .document(forbiddenNameES).refresh(co.elastic.clients.elasticsearch._types.Refresh.True)
+            );
 
             return forbiddenName;
         } catch (IOException e) {

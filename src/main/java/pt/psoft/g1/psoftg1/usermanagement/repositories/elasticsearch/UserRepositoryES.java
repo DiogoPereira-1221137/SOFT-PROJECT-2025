@@ -46,7 +46,7 @@ public class UserRepositoryES implements UserRepository {
             IndexResponse response = client.index(i -> i
                     .index(INDEX)
                     .id(userES.getId() != null ? userES.getId() : UUID.randomUUID().toString())
-                    .document(userES)
+                    .document(userES).refresh(co.elastic.clients.elasticsearch._types.Refresh.True)
             );
             userES.setId(response.id());
             return (S) mapper.toEntity(userES);

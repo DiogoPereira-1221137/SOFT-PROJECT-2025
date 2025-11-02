@@ -83,7 +83,8 @@ public class FineRepositoryES implements FineRepository {
             IndexResponse response = client.index(i -> i
                     .index(INDEX)
                     .id(fineES.getId() != null ? fineES.getId() : null)
-                    .document(fineES));
+                    .document(fineES).refresh(co.elastic.clients.elasticsearch._types.Refresh.True)
+            );
 
             return fine;
         } catch (IOException e) {

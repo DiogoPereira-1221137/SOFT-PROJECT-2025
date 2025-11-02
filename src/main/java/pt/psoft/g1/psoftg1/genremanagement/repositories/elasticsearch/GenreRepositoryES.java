@@ -91,7 +91,7 @@ public class GenreRepositoryES implements GenreRepository  {
             IndexResponse response = client.index(i -> i
                     .index(INDEX)
                     .id(genreES.getId() != null ? genreES.getId().toString() : null)
-                    .document(genreES));
+                    .document(genreES).refresh(co.elastic.clients.elasticsearch._types.Refresh.True));
 
             return genre;
         } catch (IOException e) {

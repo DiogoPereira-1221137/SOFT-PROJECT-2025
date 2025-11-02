@@ -101,7 +101,7 @@ public class AuthorESRepository implements AuthorRepository {
                     : null;
 
             client.index(IndexRequest.of(i -> {
-                var builder = i.index(INDEX).document(authorES);
+                var builder = i.index(INDEX).document(authorES).refresh(co.elastic.clients.elasticsearch._types.Refresh.True);
                 if (docId != null) {
                     builder.id(docId);
                 }

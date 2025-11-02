@@ -247,7 +247,8 @@ public class LendingRepositoryES implements LendingRepository {
             IndexResponse response = client.index(i -> i
                     .index(INDEX)
                     .id(lendingES.getId() != null ? lendingES.getId() : null)
-                    .document(lendingES));
+                    .document(lendingES).refresh(co.elastic.clients.elasticsearch._types.Refresh.True)
+            );
 
             return lending;
         } catch (IOException e) {

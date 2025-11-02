@@ -123,7 +123,8 @@ public class ReaderRepositoryES implements ReaderRepository {
     public ReaderDetails save(ReaderDetails readerDetails) {
         try {
             ReaderDetailsES es = mapper.toEntity(readerDetails);
-            client.index(i -> i.index(INDEX).id(es.getId()).document(es));
+            client.index(i -> i.index(INDEX).id(es.getId()).document(es).refresh(co.elastic.clients.elasticsearch._types.Refresh.True)
+            );
 
             return readerDetails;
         } catch (IOException e) {
